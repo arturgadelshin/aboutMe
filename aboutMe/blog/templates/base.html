@@ -1,0 +1,224 @@
+<!doctype html>
+<html lang="ru" >
+  <head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="description" content="Пример на bootstrap 5: Слайдер - навигационная панель, карусель и новые компоненты · Версия v5.1.1">
+	<title> {% block title %} About Me {% endblock %}</title>
+	<!-- Bootstrap core CSS -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU" crossorigin="anonymous">
+<link href="/path/to/css/font-awesome.css" rel="stylesheet">
+    <style>
+      .bd-placeholder-img {
+        font-size: 1.125rem;
+        text-anchor: middle;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        user-select: none;
+      }
+
+      @media (min-width: 768px) {
+        .bd-placeholder-img-lg {
+          font-size: 3.5rem;
+        }
+      }
+      .alpha { color: $purple; }
+      .body {
+        color: $yellow-300;
+        background-color: $indigo-900;
+        }
+      .my_photo {
+        display: inline-block;
+        border-radius: 50%;
+        border: 2px solid #4285F4;
+        box-shadow: 0 0 7px #666;
+        overflow: hidden;
+        width: 140px;
+        height: 140 px;
+      }
+      .my_photo img{
+        width: 140px;
+        height: 140px;
+        object-fit :cover;
+      }
+
+
+    </style>
+{% load static %}
+    <!-- Custom styles for this template -->
+    <link href="carousel.css" rel="stylesheet">
+  </head>
+<!---  <body style="background-color: #1f1c1c; color:#3a8f15 "> --->
+  <body>
+<!--- Header --->
+<header>
+<div class="container">
+  <ul class="nav justify-content-center">
+  <li class="nav-item">
+    <a class="nav-link active" aria-current="page" href="{% url 'base' %}" style="font-size:20px">Обо мне</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="{% url 'blog' %}" style="font-size:20px">Блог</a>
+  </li>
+      {% if not request.user.is_authenticated %}
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'login' %}" style="font-size:20px">Авторизация</a>
+          </li>
+          <li class="nav-item ">
+            <a class="nav-link" href="{% url 'registration' %}" style="font-size:20px">Регистрация</a>
+          </li>
+      {% endif %}
+      {% if request.user.is_authenticated %}
+          <li class="text" style="margin-top:0.5rem;">
+            <p class="text" style="text-decoration:none;font-size:20px;">Здравствуйте, {{request.user.first_name}}</p>
+          </li>
+          <li class="nav-item ">
+            <a class="nav-link" href="{% url 'profile' %}" style="font-size:20px">Мои комментарии</a>
+          </li>
+          <li class="nav-item">
+              <a class="nav-link" href="{% url 'logout' %}" style="font-size:22px;color:#e43030">Выйти</a>
+          </li>
+        {% endif %}
+  </ul>
+</div>
+</header>
+<!--- End Header --->
+
+{% if messages %}
+    {% for message in messages %}
+    <div class="container">
+        <div class="alert alert-warning alert-dismissible fade show" role="alert">
+            <strong>{{ message}}</strong>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    </div>
+    {% endfor %}
+{% endif %}
+
+
+<!--- Отсюда сделать block content --->
+  {% block content %}
+<div class="container" style="margin-top:50px">
+  <div class="row" >
+    <div class="col-lg-3" align="center" >
+        <span class="my_photo">
+            <img src="{% static 'img/photo.jpg' %}">
+        </span>
+        <h2>Гадельшин Артур, 27 лет</h2>
+        <p>Желающий попасть в IT</p>
+      <div class="d-grid gap-3 col-8 mx-center">
+        <a href="{% url 'blog' %}" class="btn btn-primary" type="button">Смотреть проекты</a>
+        <a href="{% url 'feedback' %}" class="btn btn-dark" type="button">Обратная связь</a>
+      </div>
+    </div><!-- /.col-lg-3 -->
+    <div class="col-lg-9">
+      <p>
+        <b>Информация обо мне</b>
+      <hr style="background-color:black; margin-top:10px;" size="5">
+      </p>
+      <p>
+        <b>
+          РЕЗЮМЕ:
+        </b>
+        <br>Начинающий Python разработчик, имею опыт работы с фреймворком Django (данный сайт создан на его снове),
+            c инструментами Bootstrap, CSS, HTML. Имею представление о БД, применил MsSQL для данного сайта.
+            Умение работать с Git и GitHub. Готов охотно изучать что-то новое.
+      </p>
+      <p>
+            На данный момент работаю инженером-разработчиком на оборонном предприятии. В своей работе автоматизировал
+            рутинные задачи на MS Access 2016 с использованием форм, отчётов и статистики, составлял схему БД.
+      </p>
+      <p>Использовал в своей работе рефакторинг чужого кода (C, C++), вносил изменения в код и компилировал
+         приложения *.exe для системы DOS.
+      </p>
+      <hr style="background-color:black; margin-top:10px;" size="5">
+      <p>
+        <b>
+          Хобби:
+        </b>
+        <br>3D-моделирование в Компас-3D и печать моделей на 3D-принтере. Программирование Arduino на С/С++.
+      </p>
+      <hr style="background-color:black; margin-top:10px;" size="5">
+      <p>
+        <b>
+          Образование:
+        </b>
+        <br>Рязанский государственный радиотехнический университет (РГРТУ). Бакалавриат и магистратура диплом
+        с отличием по специальности "Автоматизиация технологических процессов и производств".
+      </p>
+      <hr style="background-color:black; margin-top:10px;" size="5">
+      <p>
+        <b>
+          Место работы:
+        </b>
+        <br>По настоящее время АО "Рязанское конструкторское бюро" Глобус".
+      </p>
+      <hr style="background-color:black" size="5">
+      <p>
+        <b>
+          КОНТАКТЫ:
+        </b>
+      </p>
+      <div class="row justify-content-start">
+        <div class="col-3">
+          <br><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-envelope" viewBox="0 0 16 16">
+                <path d="M0 4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V4zm2-1a1 1 0 0 0-1 1v.217l7 4.2 7-4.2V4a1 1 0 0 0-1-1H2zm13 2.383-4.758 2.855L15 11.114v-5.73zm-.034 6.878L9.271 8.82 8 9.583 6.728 8.82l-5.694 3.44A1 1 0 0 0 2 13h12a1 1 0 0 0 .966-.739zM1 11.114l4.758-2.876L1 5.383v5.73z"/>
+                </svg>
+          <br><img src="{% static 'svg/vk.svg' %}" style="width:1.25rem">
+          <i class="fa fa-vk" aria-hidden="true"></i>
+          <br> <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-github" viewBox="0 0 16 16">
+            <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.012 8.012 0 0 0 16 8c0-4.42-3.58-8-8-8z"/>
+                </svg>
+          <br> <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-house-door" viewBox="0 0 16 16">
+                <path d="M8.354 1.146a.5.5 0 0 0-.708 0l-6 6A.5.5 0 0 0 1.5 7.5v7a.5.5 0 0 0 .5.5h4.5a.5.5 0 0 0 .5-.5v-4h2v4a.5.5 0 0 0 .5.5H14a.5.5 0 0 0 .5-.5v-7a.5.5 0 0 0-.146-.354L13 5.793V2.5a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5v1.293L8.354 1.146zM2.5 14V7.707l5.5-5.5 5.5 5.5V14H10v-4a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5v4H2.5z"/>
+                </svg>
+        </div>
+        <div class="col-9">
+          <br><a href="mailto:arturgadelshin@gmail.com" style="text-decoration:none">arturgadelshin@gmail.com</a>
+          <br><a href="https://vk.com/artur_gadelshin" style="text-decoration:none">https://vk.com/artur_gadelshin</a>
+          <br><a href="https://github.com/arturgadelshin" style="text-decoration:none">https://github.com/arturgadelshin</a>
+          <br>Рязань
+        </div>
+
+      <hr style="background-color:black; margin-top:10px;" size="5">
+      <p>
+        <b>
+          Пибликации и достижения:
+        </b>
+      </p>
+      <div class="row justify-content-start">
+        <div class="col-3">
+          <br>3D Today:
+          <br>
+          <br>Патент:
+        </div>
+        <div class="col-9">
+          <br><a href="https://3dtoday.ru/blogs/arturgadelshin/walle-from-pixar" style="text-decoration:none">Робот Walle</a>
+          <br>
+          <br><a href="https://patenton.ru/patent/RU2712377C1" style="text-decoration:none">Патент на изобретение</a>
+        </div>
+    </div>
+  </div>
+</div> <!-- /.row -->
+  </div>
+</div>
+{% endblock content %}
+
+
+      <!-- FOOTER -->
+<div class="container">
+  <footer class="container" style="margin-top:100px">
+      <div class="row justify-content-center">
+          <div class="col-md-auto">
+              <p class="float-end">&copy; Gadelshin Arthur {% now "Y" %} &middot;<a href="#" style="text-decoration:none">Вернуться наверх</a></p>
+          </div>
+      </div>
+  </footer>
+</div>
+
+<!-- JavaScript Bundle with Popper -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ" crossorigin="anonymous"></script>
+
+
+</body>
+</html>

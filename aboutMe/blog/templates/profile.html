@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% block content %}
+<title> {% block title %} My comments {% endblock %} </title>
+<div class="container" style="margin-top:50px">
+    {% if not request.user.is_authenticated %}
+        <h5 style="color:red"> Авторизируйтесь или пройдите Регистрацию</h5>
+    {% endif %}
+    <div class="row" >
+        <div class="col-lg-3">
+             {% for post in posts %}
+            <div class="card" style="width: 15rem; margin-top:20px;">
+                <img src=" {{ post.image.url }}" class="card-img-top" alt="...">
+                <div class="card-body">
+                   <h5 class="card-title">{{ post.title }}</h5>
+                   <p class="card-text">{{ post.text|truncatewords:"5" }}</p>
+                   <a href="{% url 'post' slug=post.slug %}" class="btn btn-primary" type="button">Подробнее</a>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+
+        <div class="col-lg-9">
+            <table class="table table-hover"  style="margin-top:20px;">
+                <thead>
+                <tr class="table-dark">
+                    <th scope="col">№</th>
+                    <th scope="col">Наименование поста</th>
+                    <th scope="col">Текст комментария</th>
+                    <th scope="col">Ссылка</th>
+                    <th scope="col">Действие</th>
+                </tr>
+                </thead>
+                {% for comment in comments %}
+                <tbody>
+                <tr>
+                    <th scope="row">{{ forloop.counter }}</th>
+                    <td>{{ comment.post }}</td>
+                    <td>{{ comment.text }}</td>
+                    <td><a href="{% url 'post' slug=comment.post.slug %}" style="text-decoration:None; color:blue" >{{ comment.post }}</a></td>
+                    <td> <a href="{% url 'delete_comment' comment_id=comment.id %}" class="btn btn-outline-danger" type="button">Удалить комментарий</a></td>
+                    </tr>
+                    </tbody>
+                 {% empty %}
+                            <h5>Комментариев еще нет, смотри статьи и не забывай оставить комментарий.</h5>
+                {% endfor %}
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}
